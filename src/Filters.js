@@ -11,7 +11,7 @@ class Filters extends React.Component
     render()
     {
         console.log("Filters component rerendered")
-        return <button>{this.props.name}</button>;
+        return <button onClick={()=>{this.props.filtering(this.props.name,this.props.jsxData)}}>{this.props.name}</button>;
     }
 }
 export default Filters;

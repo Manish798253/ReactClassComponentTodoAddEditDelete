@@ -6,11 +6,43 @@ import Filters from './Filters';
 import Tasks from './Tasks';
 import { nanoid } from 'nanoid'
 //comp5 //outer
+
+function FilteringOnChecked(filter,jsxData)
+{
+  console.log("on: "+this);
+  let filteredJsxData=[];
+  if(filter=="All")
+   {
+    filteredJsxData=jsxData;
+   }
+ else if(filter=="Completed")
+ {
+  filteredJsxData=jsxData.filter((ele)=>
+  {
+    if(ele.props.checked==true)
+    return true;
+    return false;
+  })
+ }
+ else if(filter=="Remaining")
+ {
+  filteredJsxData=jsxData.filter((ele)=>
+  {
+    if(ele.props.checked==false)
+    return true;
+    return false;
+  })
+ }
+ return filteredJsxData;
+}
+
 class App extends React.Component{
   constructor(props)
   {
+    //console.log(this);
     console.log("app component started")
     super(props);
+    console.log(this)
     this.data=["Code","Sleep","Repeat"];
     this.state={input:"",filter:"all"};
     this.setInput=this.setInput.bind(this);
@@ -21,7 +53,7 @@ class App extends React.Component{
     console.log("initial_state:"+ this.state)
     this.jsxData=this.data.map((ele)=>{
       console.log("yes")
-      const newEle=<Tasks key={ele} name={ele} id={ele} checked="false" deleteData={this.deleteData}
+      const newEle=<Tasks key={ele} name={ele} id={ele} checked={false} deleteData={this.deleteData}
         setChecked={this.setChecked}
       />;
       return newEle;
@@ -47,7 +79,7 @@ class App extends React.Component{
       this.jsxData=this.data.map((ele)=>{
         console.log("yes")
         const newEle=<Tasks key={ele} name={ele} id={ele} deleteData={this.deleteData}
-        checked="false"
+        checked={false}
           setChecked={this.setChecked}
         />;
         return newEle;
@@ -77,6 +109,7 @@ class App extends React.Component{
    filteredData=this.jsxData.map((ele)=>{
 if(ele["key"]==id)
 {
+  console.log("checked changed"+ele["key"]+"checked:"+typeof(checked)+" modified:"+!(checked))
   return (<Tasks key={ele["key"]} name={ele.props.name} id={ele.props.id} deleteData={this.deleteData}
   checked={!checked}
     setChecked={this.setChecked}/>);
@@ -89,6 +122,7 @@ return ele;
   componentDidUpdate()
   {
     console.log("new state: "+this.state);
+    console.log(this.jsxData);
 
   }
   render()
@@ -99,9 +133,9 @@ return ele;
       <div>
       <InputAddComponent setInput={this.setInput} input={this.state.input} 
       setData={this.setData}/>
-     <div><Filters name="All"/>
-      <Filters name="Completed"/>
-      <Filters name="Remaining"/></div> 
+     <div><Filters name="All" filtering={FilteringOnChecked} jsxData={this.jsxData}/>
+      <Filters name="Completed" filtering={FilteringOnChecked} jsxData={this.jsxData}/>
+      <Filters name="Remaining" filtering={FilteringOnChecked} jsxData={this.jsxData}/></div> 
       {this.jsxData}
       </div>
      );

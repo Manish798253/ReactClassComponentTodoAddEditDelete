@@ -4,14 +4,14 @@ class Tasks extends React.Component
 {
     //every task's rerendering has to be stopped on adding of a single task;
     //to be done in future
-shouldComponentUpdate(nextProps,nextState)
-{
-    if(nextProps.checked==this.props.checked)
-    {
-        return false;
-    }
-    return true;
-}
+// shouldComponentUpdate(nextProps,nextState)
+// {
+//     if(nextProps.checked==this.props.checked)
+//     {
+//         return false;
+//     }
+//     return true;
+// }
 
 render()
 {
