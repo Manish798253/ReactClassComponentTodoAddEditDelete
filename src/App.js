@@ -73,15 +73,18 @@ class App extends React.Component{
   }
   setChecked(checked,id)
   {
-   for (const iterator of this.jsxData) {
-   // console.log(iterator)
-    if(iterator["key"]==id)
-    {
-      //console.log(iterator.props["checked"]);
-      iterator.props["checked"]=!checked;
-   // iterator["key"].props["checked"]=!checked;
-    }
-   }
+    let filteredData=[];
+   filteredData=this.jsxData.map((ele)=>{
+if(ele["key"]==id)
+{
+  return (<Tasks key={ele["key"]} name={ele.props.name} id={ele.props.id} deleteData={this.deleteData}
+  checked={!checked}
+    setChecked={this.setChecked}/>);
+}
+return ele;
+   });
+   this.jsxData=filteredData;
+   this.forceUpdate();
   }
   componentDidUpdate()
   {
